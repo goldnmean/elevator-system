@@ -21,12 +21,25 @@ function ElevatorController(elevatorObj, elevators, floors) {
         this.floorRequests.push(request);
     };
 
-    /* 7.  When an elevator request is made, the unoccupied elevator closest to it will answer
-          the call, unless an occupied elevator is moving and will pass that floor on its way.
-          The exception is that if an unoccupied elevator is already stopped at that floor,
-          then it will always have the highest priority answering that call. */
     ElevatorController.prototype.processRequests = function() {
+        var elevators = this.elevators;
+        var floorRequests = this.floorRequests;
+        var closestElevators = [];
 
+        elevators.forEach(function(elevator) {
+            if (floorRequests.length > 0) {
+                // If an unoccupied elevator is already stopped at that floor it has first priority
+                if (!elevator.moving && elevator.currentFloor === floorRequests[0].currentFloor) {
+                    elevator.doorsOpen = true;
+                    elevator.move(floorRequests[0].floorRequested);
+                    floorRequests.splice(0, 1);
+                } else if (elevator.moving && floorRequests[0].currentFloor < elevator.destinationFloor) {
+                    // An occupied elevator is moving and will pass that floor on its way
+                } else {
+                    // The unoccupied elevator closest to it will answer
+                }
+            }
+        });
     };
 };
 

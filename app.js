@@ -5,10 +5,7 @@ var ElevatorController = require('./elevatorController');
 var ec = new ElevatorController(Elevator, 2, 10);
 // ec.floorRequest(2,3); //floorRequest(currentFloor, requestedFloor)
 
-// ec.elevators[0].request(0, 5); //elevatorRequest(elevatorId, requestedFloor)
-// ec.elevators[1].request(1, 10);
+ec.elevators[0].request(0, 5); //elevatorRequest(elevatorId, requestedFloor)
+ec.elevators[1].request(1, 10);
 
-// ec.elevators[0].move(5);
-
-ec.elevators[1].currentFloor = 10;
-ec.elevators[1].move(3);
+ec.elevators[0].move(5);

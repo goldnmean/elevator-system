@@ -73,6 +73,8 @@ Elevator.prototype.move = function(floorRequested) {
         for (var i = that.currentFloor; i < numOfFloors; i++) {
             setTimeout(function() {
                 that.currentFloor++;
+                // 8. Track floors
+                that.floorsPassed++;
                 that.reportMoving(that.destinationFloor);
                 if (that.currentFloor === that.destinationFloor) {
                     that.moving = false;
@@ -86,6 +88,8 @@ Elevator.prototype.move = function(floorRequested) {
         for (var i = that.currentFloor; i > numOfFloors; i--) {
             setTimeout(function() {
                 that.currentFloor--;
+                // 8. Track floors
+                that.floorsPassed++;
                 that.reportMoving(that.destinationFloor);
                 if (that.destinationFloor === that.currentFloor) {
                     that.moving = false;
