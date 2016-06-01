@@ -51,7 +51,42 @@ Elevator.prototype.request = function(id, floor) {
         id: id,
         floor: floor
     });
-}
+};
+
+Elevator.prototype.move = function(floorRequested) {
+    this.destinationFloor = floorRequested;
+    if (!this.isValidFloor(this.destinationFloor)){
+      return false;
+    }
+    var timePerFloor = 1000;
+    var numOfFloors = Math.abs(this.currentFloor - this.destinationFloor);
+    var startingFloor = this.currentFloor;
+    var direction = this.getDirection(floorRequested);
+
+    var that = this;
+    // Start moving
+    that.doorsOpen = false;
+    that.reportDoorStatus();
+    that.moving = true;
+    that.reportMoving(that.destinationFloor);
+
+    for (var i = that.currentFloor; i < numOfFloors; i++) {
+      setTimeout(function() {
+          if(direction === 'up'){
+            that.currentFloor++;
+          } else {
+            that.currentFloor--;
+          }
+          that.reportMoving(that.destinationFloor);
+          if(that.currentFloor === that.destinationFloor) {
+            that.moving = false;
+            that.reportMoving();
+            that.doorsOpen = true;
+            that.reportDoorStatus();
+          }
+      }, timePerFloor * i);
+    }
+};
 
 /* 8. The elevator should keep track of how many trips it has made, and how many floors it has passed.
 The elevator should go into maintenance mode after 100 trips, and stop functioning until serviced,
