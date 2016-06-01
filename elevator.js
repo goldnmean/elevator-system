@@ -55,8 +55,8 @@ Elevator.prototype.request = function(id, floor) {
 
 Elevator.prototype.move = function(floorRequested) {
     this.destinationFloor = floorRequested;
-    if (!this.isValidFloor(this.destinationFloor)){
-      return false;
+    if (!this.isValidFloor(this.destinationFloor)) {
+        return false;
     }
     var timePerFloor = 1000;
     var numOfFloors = Math.abs(this.currentFloor - this.destinationFloor);
@@ -69,22 +69,32 @@ Elevator.prototype.move = function(floorRequested) {
     that.reportDoorStatus();
     that.moving = true;
     that.reportMoving(that.destinationFloor);
-
-    for (var i = that.currentFloor; i < numOfFloors; i++) {
-      setTimeout(function() {
-          if(direction === 'up'){
-            that.currentFloor++;
-          } else {
-            that.currentFloor--;
-          }
-          that.reportMoving(that.destinationFloor);
-          if(that.currentFloor === that.destinationFloor) {
-            that.moving = false;
-            that.reportMoving();
-            that.doorsOpen = true;
-            that.reportDoorStatus();
-          }
-      }, timePerFloor * i);
+    if (direction === 'up') {
+        for (var i = that.currentFloor; i < numOfFloors; i++) {
+            setTimeout(function() {
+                that.currentFloor++;
+                that.reportMoving(that.destinationFloor);
+                if (that.currentFloor === that.destinationFloor) {
+                    that.moving = false;
+                    that.reportMoving();
+                    that.doorsOpen = true;
+                    that.reportDoorStatus();
+                }
+            }, timePerFloor * i);
+        }
+    } else if (direction === 'down') {
+        for (var i = that.currentFloor; i > numOfFloors; i--) {
+            setTimeout(function() {
+                that.currentFloor--;
+                that.reportMoving(that.destinationFloor);
+                if (that.destinationFloor === that.currentFloor) {
+                    that.moving = false;
+                    that.reportMoving();
+                    that.doorsOpen = true;
+                    that.reportDoorStatus();
+                }
+            }, timePerFloor);
+        }
     }
 };
 
