@@ -19,7 +19,6 @@ function ElevatorController(elevatorObj, elevators, floors) {
             floorRequested: floorRequested
         }
         this.floorRequests.push(request);
-        console.log(this.floorRequests);
     };
 
     /* 7.  When an elevator request is made, the unoccupied elevator closest to it will answer

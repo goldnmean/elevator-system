@@ -9,6 +9,7 @@ function Elevator(id, floors) {
     this.maintenance = false;
     this.moving = false;
     this.doorsOpen = false;
+    this.floorRequests = [];
 }
 
 // 2. Each elevator will report as it moves from floor to floor.
@@ -45,6 +46,12 @@ Elevator.prototype.isValidFloor = function(floor) {
 };
 
 // 6. An elevator request can be made at any floor, to go to any other floor.
+Elevator.prototype.request = function(id, floor) {
+    this.floorRequests.push({
+        id: id,
+        floor: floor
+    });
+}
 
 /* 8. The elevator should keep track of how many trips it has made, and how many floors it has passed.
 The elevator should go into maintenance mode after 100 trips, and stop functioning until serviced,
